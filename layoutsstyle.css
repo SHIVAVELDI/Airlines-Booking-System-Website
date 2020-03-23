@@ -1,0 +1,234 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+	height: 100%;
+    background: url(francesca-tirico-9G9vxsMzi18-unsplash.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100px
+  margin: 0;
+
+}
+
+/* Style the header */
+.header {
+ 
+  padding: 20px;
+  text-align: center;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color:white;
+  text-shadow: 3px 2px black;
+  font-weight: bold;
+}
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  
+  font-style: "Comic Sans MS", cursive, sans-serif;
+
+  background-color: #333;
+}
+
+/* Style the topnav links */
+.topnav a {
+  font-family:  "Comic Sans MS", cursive, sans-serif;
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+	position: center;
+  width :100%;
+  padding: 10px;
+  color:white;
+   text-shadow: 3px 2px black;
+   font-family: "Comic Sans MS", cursive, sans-serif;
+   text-align: center;
+
+}
+table {
+	font-weight: bold;
+  padding:10px;
+  color:white;
+  border-collapse: collapse;
+  text-shadow: 3px 2px black;
+   font-family: "Comic Sans MS", cursive, sans-serif;
+   width: 100%;
+  border:1px solid black;
+  border-radius: 25px 25px 25px 25px;
+  box-shadow:  0 12px 16px 0 black, 0 17px 50px 0 black;
+}
+
+th ,td{
+  padding: 8px;
+  text-align: left;
+  text-shadow: 3px 2px black;
+  border-bottom: 1px solid #ddd;
+  border:1px solid black;
+
+}
+th{
+	background-color: #333;
+}
+
+td{
+
+    
+	}
+tr:hover {background-color:#333;}
+
+
+
+ label{
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-weight: bold;
+  color:white;
+  text-shadow: 3px 2px black;
+
+
+  }
+
+
+ input[type=text], input[type=password] ,input[type=email],input[type=tel]{
+  width: 60%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  border-radius: 25px;
+  border: 2px solid #4CAF50;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
+input[type=date],input[type=number],input[type=time]{
+  width: 35%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  border-radius: 25px;
+  border: 2px solid #4CAF50;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
+ 
+
+input[type=text]:focus, input[type=password]:focus ,input[type=email]:focus,input[type=tel]{
+  background-color: #ddd;
+  outline: none;
+  border-radius: 25px;
+  border: 2px solid #4CAF50;
+
+}
+input[type=number]:focus,input[type=time]:focus,input[type=date]:focus{
+	  background-color: #ddd;
+  outline: none;
+  border-radius: 25px;
+  border: 2px solid #4CAF50;
+}
+
+li{
+	display: block;
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
+
+
+
+
+select{
+	 background-color: #4CAF50;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 25px;
+  margin-right:  10px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    font-family: "Comic Sans MS", cursive, sans-serif;
+
+}
+option{
+	 background-color: #2196F3;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 25px;
+  margin-right:  10px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    font-family: "Comic Sans MS", cursive, sans-serif;
+
+}
+
+.container {
+  position: center;
+  margin: 30px;
+  max-width: 500px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  border-radius: 25px;
+   box-shadow: 0 12px 16px 0 black, 0 17px 50px 0 black;
+  
+  opacity: 1;
+}
+
+
+.btn {
+  border: none; /* Remove borders */
+  color: white; /* Add a text color */
+  padding: 14px 28px; /* Add some padding */
+  cursor: pointer;
+  width:80%;
+  margin: 20px;
+  border-radius: 25px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19); /* Add a pointer cursor on mouse-over */
+}
+
+.success {background-color: #4CAF50;} /* Green */
+.success:hover {background-color: #46a049;
+box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
+
+.info {background-color: #2196F3;} /* Blue */
+.info:hover {background: #0b7dda;
+box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
+
+.warning {background-color: #ff9800;} /* Orange */
+.warning:hover {background: #e68a00;
+box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
+
+.danger {background-color: #f44336;} /* Red */
+.danger:hover {background: #da190b;
+box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
+
+.default {background-color: #e7e7e7; color: black;} /* Gray */
+.default:hover {background: #ddd;
+box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
+
