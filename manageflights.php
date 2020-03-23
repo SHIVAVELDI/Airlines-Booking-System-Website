@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="layoutsstyle.css">
 <style type="text/css">
 	form{
-		max-width: 1500px !important;
+		max-width: 1000px !important;
 		opacity: 1.5 !important;
 
 	}
@@ -29,9 +29,10 @@
     		<a href="manageairports.php">Manage Airports</a>
     		<a href="manageplanes.php">Manage Planes</a>
     	</div>
-    	<div class="column">
+    	<center>
+    	
     		<h2 class="header">New Flights </h2>
-		<form action = "manageflightsinsert-backend.php" method = "POST" class="container">
+		<form action = "manageflightsinsert-backend.php" method = "POST" class="container" style="max-width: 500px!important;">
 			<label>Source:</label>
 			<input name = "source_code" placeholder = "3 letter Code" type="text" required><br><br>
 			<label>destination:</label>
@@ -55,7 +56,7 @@
 			<button class="btn danger"   type = "submit">Delete</button>
 			<button class="btn info"   type = "reset">ClearEntries</button>
 		</form>
-		<h2>Update fare</h2>
+		<h2 class="header">Update fare</h2>
 		<form action = "manageflightsupdate-backend.php" method = "POST" class="container">
 			<label>PlaneID:</label>
 			<input name = "plane_id" type="text" placeholder="Registration Number" required><br><br>
@@ -72,7 +73,8 @@
 			<button class="btn info" type = "reset">ClearEntries</button>
 		</form>
         
-        </div>
+       
+    </center>
 	
 </body>
 </html>
