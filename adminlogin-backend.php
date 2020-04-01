@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once 'dbconnect.php';
 $username = $_POST["username"];
 $password = $_POST["password"];
@@ -14,6 +16,8 @@ if($numResults == 1)
 	$query = "UPDATE admin SET admin_login_count = admin_login_count + 1 WHERE username='$username'";
 	mysqli_query($con, $query);
 	// echo '<center><h1 class="column">Hi ".$row["username"]."!</h1></center>';
+	$_SESSION["name"]=$username;
+
 	require_once"adminshome.php";
 
 }

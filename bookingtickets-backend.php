@@ -42,10 +42,10 @@ if($numResults == 0)
 else{
 	echo'<html>
 <head>
-	<title>AirlinesBookingSystem</title>
+	<title>Flights Available</title>
 	<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="layoutsstyle.css">
+<link rel="stylesheet" type="text/css" href="/AirlinesBooking/layoutsstyle.css">  
 </head>
   
     <body>
@@ -63,7 +63,7 @@ else{
     echo'<div class="column">';
 	echo "<h1>Direct Flights from ".$source." to ".$destination."</h1><br>";
 
-	$query = "SELECT f.flight_id,f.stops,t.plane_id,t.path,t.path_desc,t.fare,t.date_of_depart,t.time_of_depart,t.date_of_arrival,t.time_of_arrival FROM flights as f ,taken_by_plane as t WHERE f.source ='$source' and f.destination='$destination'and f.flight_id=t.flight_id and t.date_of_depart='$date_of_depart' and f.stops=0";
+	$query = "SELECT f.flight_id,f.stops,t.plane_id,t.path,t.path_desc,t.economy_fare,t.business_fare,t.first_fare,t.date_of_depart,t.time_of_depart,t.date_of_arrival,t.time_of_arrival FROM flights as f ,taken_by_plane as t WHERE f.source ='$source' and f.destination='$destination'and f.flight_id=t.flight_id and t.date_of_depart='$date_of_depart' and f.stops=0";
 	$result = mysqli_query($con, $query);
 	$table=mysqli_fetch_all($result);
 	$numResults = mysqli_num_rows($result);
@@ -76,13 +76,14 @@ else{
     <th>plane_id</th>
     <th>path</th>
     <th>path_desc</th>
-    <th>fare</th>
+    
     <th>Date_of_Depart</th> 
     <th>time_of_depart</th>
     <th>Date_of_arrival</th>
     <th>time_of_arrival</th>
     <th>Class</th>  
     <th>Seats_Available</th>
+    <th>Price</th>
     <th>BOOK_this_flights</th>
     </tr>';
 	foreach ($table as $row){
@@ -95,14 +96,14 @@ else{
     echo "<td>".$row[3]."</td>";
     echo "<td>".$row[4]."</td>";
 
-    echo "<td>".$row[5]."</td>";
-    echo "<td>".$row[6]."</td>";
-    echo "<td>".$row[7]."</td>";
+    
     echo "<td>".$row[8]."</td>";
     echo "<td>".$row[9]."</td>";
+    echo "<td>".$row[10]."</td>";
+    echo "<td>".$row[11]."</td>";
     
     if($class=="first"){
-    	$query="select total_first_seats,booked_first_seats from planes where plane_id='$row[2]'";
+    	$query="select p.total_first_seats,h.booked_first_seats from planes as p,has_booked_seats_in_plane as h where h.flight_id='$row[0]' and p.plane_id='$row[2]' and p.plane_id=h.plane_id";
     	$result=mysqli_query($con,$query);
     	$seats=mysqli_fetch_array($result);
     	$total_seats=$seats[0];
@@ -110,7 +111,7 @@ else{
     	$seats_available=$total_seats-$booked_seats; 
     }
     if ($class=="business") {
-    	$query="select total_business_seats , booked_business_seats from planes where plane_id='$row[2]'";
+    	$query="select p.total_business_seats,h.booked_business_seats from planes as p,has_booked_seats_in_plane as h where h.flight_id ='$row[0]'  and p.plane_id='$row[2]' and p.plane_id=h.plane_id";
     	$result=mysqli_query($con,$query);
     	$seats=mysqli_fetch_array($result);
     	$total_seats=$seats[0];
@@ -118,7 +119,7 @@ else{
     	$seats_available=$total_seats-$booked_seats; 
     }
     if($class=="economy"){
-    	$query="select total_economy_seats , booked_economy_seats from planes where plane_id='$row[2]'";
+    	$query="select p.total_economy_seats,h.booked_economy_seats from planes as p,has_booked_seats_in_plane as h where h.flight_id='$row[0]' and p.plane_id='$row[2]' and p.plane_id=h.plane_id";
     	$result=mysqli_query($con,$query);
     	$seats=mysqli_fetch_array($result);
     	$total_seats=$seats[0];
@@ -127,6 +128,20 @@ else{
     }
     echo "<td>".$class."</td>";
     echo "<td>".$seats_available."</td>";
+    if ($class=="economy"){
+        $fare=$row[5];
+
+    }
+      if ($class=="business"){
+         $fare=$row[6];
+
+    }
+      if ($class=="first"){
+         $fare=$row[7];
+
+    }
+    echo"<td>".$fare."</td>";
+    if($seats_available){
     echo '<td>
         <form action="book.php" method="post">
         <input type="hidden" name="flight_id" value="'.$row[0].'">
@@ -134,20 +149,30 @@ else{
         <input type="hidden" name="path" value="'.$row[3].'">
         <input type="hidden" name="path_desc" value="'.$row[4].'">
         <input type="hidden" name="class" value="'.$class.'">
-        <input type="hidden" name="fare" value="'.$row[5].'">
-        <input type="hidden" name="date_of_depart" value="'.$row[6].'">
-        <input type="hidden" name="time_of_depart" value="'.$row[7].'">
-        <input type="hidden" name="date_of_arrival" value="'.$row[8].'">
-        <input type="hidden" name="time_of_arrival" value="'.$row[9].'">
+        <input type="hidden" name="fare" value="'.$fare.'">
+        <input type="hidden" name="date_of_depart" value="'.$row[8].'">
+        <input type="hidden" name="time_of_depart" value="'.$row[9].'">
+        <input type="hidden" name="date_of_arrival" value="'.$row[10].'">
+        <input type="hidden" name="time_of_arrival" value="'.$row[11].'">
         <input type="hidden" name="total_seats" value="'.$total_seats.'">
         <input type="hidden" name="booked_seats" value="'.$booked_seats.'">
         <input type="hidden" name="seats_available" value="'.$seats_available.'">
         <input type="hidden" name="source" value="'.$source.'">
         <input type="hidden" name="destination" value="'.$destination .'">
         <input type="hidden" name="stops" value="'.$row[1].'">
-        <button class="btn warning" type="submit">Book</button>
+        <button class="btn success" type="submit">Book</button>
         </form>
         </td>';
+    }
+    else{
+
+        echo'<td>
+        
+        <button class="btn warning" type="submit">Sold Out</button>
+        
+        </td>';
+
+    }
     echo "</tr>";
     // $prev_flightid=$current_flightid;
     // $prev_planeid=$current_planeid;
@@ -159,7 +184,7 @@ else{
 
     echo "<h1>Indirect Flights from ".$source." to ".$destination."</h1><br>";
 
-	$query = "SELECT f.flight_id,f.stops,t.plane_id,t.path,t.path_desc,t.fare,t.date_of_depart,t.time_of_depart,t.date_of_arrival,t.time_of_arrival FROM flights as f ,taken_by_plane as t WHERE f.source ='$source' and f.destination='$destination'and f.flight_id=t.flight_id and ((t.date_of_depart='$date_of_depart' and t.path=1)or(t.path=2)) and f.stops=1 order by f.flight_id";
+	$query = "SELECT f.flight_id,f.stops,t.plane_id,t.path,t.path_desc,t.economy_fare,t.business_fare,t.first_fare,t.date_of_depart,t.time_of_depart,t.date_of_arrival,t.time_of_arrival FROM flights as f ,taken_by_plane as t WHERE f.source ='$source' and f.destination='$destination'and f.flight_id=t.flight_id and ((t.date_of_depart='$date_of_depart' and t.path=1)or(t.path=2)) and f.stops=1 order by f.flight_id,t.path";
 	$result = mysqli_query($con, $query);
 	$table=mysqli_fetch_all($result);
 	$numResults = mysqli_num_rows($result);
@@ -170,14 +195,14 @@ else{
     <th>plane_id</th>
     <th>path</th>
     <th>path_desc</th> 
-    <th>fare</th>
+    
     <th>Date_of_Depart</th> 
     <th>time_of_depart</th>
     <th>Date_of_arrival</th>
     <th>time_of_arrival</th>
      <th>Class</th> 
     <th>Seats_Available</th>
-
+    <th>Price</th>
     <th>BOOK_this_flights</th>
     </tr>';
     $prev_flightid=0;
@@ -194,20 +219,20 @@ else{
     echo "<td>".$prow[2]."<br><br>".$row[2]."</td>";
     echo "<td>".$prow[3]."<br><br>".$row[3]."</td>";
     echo "<td>".$prow[4]."<br><br>".$row[4]."</td>";
-    echo "<td>".$prow[5]."<br><br>".$row[5]."</td>";
-    echo "<td>".$prow[6]."<br><br>".$row[6]."</td>";
-    echo "<td>".$prow[7]."<br><br>".$row[7]."</td>";
     echo "<td>".$prow[8]."<br><br>".$row[8]."</td>";
     echo "<td>".$prow[9]."<br><br>".$row[9]."</td>";
+    echo "<td>".$prow[10]."<br><br>".$row[10]."</td>";
+    echo "<td>".$prow[11]."<br><br>".$row[11]."</td>";
+    
     
     if($class=="first"){
-    	$query="select total_first_seats,booked_first_seats from planes where plane_id='$prow[2]'";
+    	$query="select p.total_first_seats,h.booked_first_seats from planes as p,has_booked_seats_in_plane as h where h.flight_id='$prow[0]' and p.plane_id='$prow[2]' and p.plane_id=h.plane_id";
     	$result=mysqli_query($con,$query);
     	$seats=mysqli_fetch_array($result);
     	$ptotal_seats=$seats[0];
     	$pbooked_seats=$seats[1];
     	$pseats_available=$ptotal_seats-$pbooked_seats;
-    	$query="select total_first_seats,booked_first_seats from planes where plane_id='$row[2]'";
+    	$query="select p.total_first_seats,h.booked_first_seats from planes as p,has_booked_seats_in_plane as h where  h.flight_id='$row[0]' and  p.plane_id='$row[2]' and p.plane_id=h.plane_id";
     	$result=mysqli_query($con,$query);
     	$seats=mysqli_fetch_array($result);
     	$total_seats=$seats[0];
@@ -215,13 +240,13 @@ else{
     	$seats_available=$total_seats-$booked_seats;  
     }
     if ($class=="business") {
-    	$query="select total_business_seats , booked_business_seats from planes where plane_id='$prow[2]'";
+    	$query="select p.total_business_seats , h.booked_business_seats from planes as p,has_booked_seats_in_plane as h where  h.flight_id='$prow[0]'  and  p.plane_id='$prow[2]' and p.plane_id=h.plane_id";
     	$result=mysqli_query($con,$query);
     	$seats=mysqli_fetch_array($result);
     	$ptotal_seats=$seats[0];
     	$pbooked_seats=$seats[1];
     	$pseats_available=$ptotal_seats-$pbooked_seats;
-    	$query="select total_business_seats , booked_business_seats from planes where plane_id='$row[2]'";
+    	$query="select p.total_business_seats , h.booked_business_seats from planes as p,has_booked_seats_in_plane as h where h.flight_id='$row[0]'  and p.plane_id='$row[2]' and p.plane_id=h.plane_id";
     	$result=mysqli_query($con,$query);
     	$seats=mysqli_fetch_array($result);
     	$total_seats=$seats[0];
@@ -229,13 +254,13 @@ else{
     	$seats_available=$total_seats-$booked_seats; 
     }
     if($class=="economy"){
-    	$query="select total_economy_seats , booked_economy_seats from planes where plane_id='$prow[2]'";
+    	$query="select p.total_economy_seats , h.booked_economy_seats from planes as p,has_booked_seats_in_plane as h where h.flight_id='$prow[0]'  and   p.plane_id='$prow[2]' and p.plane_id=h.plane_id";
     	$result=mysqli_query($con,$query);
     	$seats=mysqli_fetch_array($result);
     	$ptotal_seats=$seats[0];
     	$pbooked_seats=$seats[1];
     	$pseats_available=$ptotal_seats-$pbooked_seats;
-    	$query="select total_economy_seats , booked_economy_seats from planes where plane_id='$row[2]'";
+    	$query="select p.total_economy_seats , h.booked_economy_seats from planes as p,has_booked_seats_in_plane as h where h.flight_id='$row[0]'  and  p.plane_id='$row[2]' and p.plane_id=h.plane_id";
     	$result=mysqli_query($con,$query);
     	$seats=mysqli_fetch_array($result);
     	$total_seats=$seats[0];
@@ -244,7 +269,20 @@ else{
     }
     echo "<td>".$class."</td>";
     echo "<td>".$pseats_available."<br><br>".$seats_available."</td>";
-    
+    if($class=="economy"){
+        $fare1=$prow[5];
+        $fare2=$row[5];
+    }
+    if($class=="business"){
+        $fare1=$prow[6];
+        $fare2=$row[6];
+    }
+    if($class=="first"){
+        $fare1=$prow[7];
+        $fare2=$row[7];
+    }
+    echo "<td>".$fare1."<br><br>".$fare2."</td>";
+    if($pseats_available!=0 && $seats_available!=0){
     echo '<td>
         <form action="book.php" method="post">
         <input type="hidden" name="flight_id" value="'.$row[0].'">
@@ -255,17 +293,17 @@ else{
         <input type="hidden" name="path_desc1" value="'.$prow[4].'">
         <input type="hidden" name="path_desc2" value="'.$row[4].'">
         <input type="hidden" name="class" value="'.$class.'">
-        <input type="hidden" name="fare1" value="'.$prow[5].'">
-        <input type="hidden" name="fare2" value="'.$row[5].'">
-        <input type="hidden" name="date_of_depart1" value="'.$prow[6].'">
-        <input type="hidden" name="date_of_depart2" value="'.$row[6].'">
-        <input type="hidden" name="time_of_depart1" value="'.$prow[7].'">
-        <input type="hidden" name="time_of_depart2" value="'.$row[7].'">
+        <input type="hidden" name="fare1" value="'.$fare1.'">
+        <input type="hidden" name="fare2" value="'.$fare2.'">
+        <input type="hidden" name="date_of_depart1" value="'.$prow[8].'">
+        <input type="hidden" name="date_of_depart2" value="'.$row[8].'">
+        <input type="hidden" name="time_of_depart1" value="'.$prow[9].'">
+        <input type="hidden" name="time_of_depart2" value="'.$row[9].'">
         
-        <input type="hidden" name="date_of_arrival1" value="'.$prow[8].'">
-        <input type="hidden" name="date_of_arrival2" value="'.$row[8].'">
-        <input type="hidden" name="time_of_arrival1" value="'.$prow[9].'">
-        <input type="hidden" name="time_of_arrival2" value="'.$row[9].'">
+        <input type="hidden" name="date_of_arrival1" value="'.$prow[10].'">
+        <input type="hidden" name="date_of_arrival2" value="'.$row[10].'">
+        <input type="hidden" name="time_of_arrival1" value="'.$prow[11].'">
+        <input type="hidden" name="time_of_arrival2" value="'.$row[11].'">
         <input type="hidden" name="total_seats1" value="'.$ptotal_seats.'">
         <input type="hidden" name="total_seats2" value="'.$total_seats.'">
         <input type="hidden" name="booked_seats1" value="'.$pbooked_seats.'">
@@ -276,9 +314,15 @@ else{
         <input type="hidden" name="destination" value="'.$destination .'">
        
          <input type="hidden" name="stops" value="'.$row[1].'">
-        <button class="btn warning" type="submit">Book</button>
+        <button class="btn success" type="submit">Book</button>
         </form>
         </td>';
+    }
+    else{
+        echo'<td>
+        <button class="btn warning" type="">Sold Out</button>
+        </td>';
+    }
     
     echo "</tr>";
     }
@@ -294,6 +338,9 @@ else{
 	$prow[7]=$row[7];
 	$prow[8]=$row[8];
 	$prow[9]=$row[9];
+    $prow[10]=$row[10];
+    $prow[11]=$row[11];
+ 
 	}
 	echo"</table>";
 	echo"</div>";

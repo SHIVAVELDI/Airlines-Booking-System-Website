@@ -27,7 +27,7 @@ $destination=$result_row[2];
 $halt_station=$result_row[3];
 
 if($stops){
-$query="select plane_id,date_of_depart,time_of_depart,date_of_arrival,time_of_arrival from taken_by_plane where flight_id='$flight_id'";
+$query="select plane_id,date_of_depart,time_of_depart,date_of_arrival,time_of_arrival from taken_by_plane where flight_id='$flight_id' order by path";
 $result_tuples=mysqli_query($con,$query);
 $result_row=mysqli_fetch_all($result_tuples);
 $plane_id1=$result_row[0][0];
@@ -42,10 +42,10 @@ $date_of_arrival2=$result_row[1][3];
 $time_of_arrival2=$result_row[1][4];
 echo'<html>
 <head>
-	<title>AirlinesBookingSystem</title>
+	<title>E-Ticket</title>
 	<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="layoutsstyle.css">
+<link rel="stylesheet" type="text/css" href="/AirlinesBooking/layoutsstyle.css">
 </head>
   
     <body>
@@ -60,14 +60,32 @@ echo'<html>
     		<a href="bookinghistory.php">Your Booking History</a>
     	</div>';
 
+
+$query= "select f.flight_id from flights as f ,taken_by_plane as t where (f.source='$source' and f.destination='$halt_station' and f.stops='0' and t.plane_id='$plane_id1' and t.date_of_depart='$date_of_depart1' and t.time_of_depart='$time_of_depart1' and f.flight_id=t.flight_id)";
+$result=mysqli_query($con,$query);
+$tuple=mysqli_fetch_array($result);
+$flight_id1=$tuple[0];
+
+
+
+
+$query= "select f.flight_id from flights as f ,taken_by_plane as t where (f.source='$halt_station' and f.destination='$destination' and f.stops='0' and t.plane_id='$plane_id2' and t.date_of_depart='$date_of_depart2' and t.time_of_depart='$time_of_depart2' and f.flight_id=t.flight_id)";
+$result=mysqli_query($con,$query);
+$tuple=mysqli_fetch_array($result);
+
+$flight_id2=$tuple[0];
+echo$flight_id1;
+echo$flight_id2;
+
+
 if($class=="economy"){
 
 	
-	$update_seats_query_plane1="update planes set booked_economy_seats=booked_economy_seats + '$anum' where plane_id='$plane_id1'";
+	$update_seats_query_plane1="update has_booked_seats_in_plane set booked_economy_seats=booked_economy_seats + '$anum' where plane_id='$plane_id1' and (flight_id='$flight_id' or flight_id='$flight_id1')";
 	$update=mysqli_query($con,$update_seats_query_plane1);
 	if($update);
 	else echo ("Error description: ".mysqli_error($con));
-	$update_seats_query_plane2="update planes set booked_economy_seats=booked_economy_seats + '$anum' where plane_id='$plane_id2'";
+	$update_seats_query_plane2="update has_booked_seats_in_plane set booked_economy_seats=booked_economy_seats + '$anum' where plane_id='$plane_id2' and (flight_id='$flight_id' or flight_id='$flight_id2')";
 	$update=mysqli_query($con,$update_seats_query_plane2);
 	if($update);
 	else echo ("Error description: ".mysqli_error($con));
@@ -76,25 +94,25 @@ if($class=="economy"){
 if($class=="business"){
 
 	
-	$update_seats_query_plane1="update planes set booked_business_seats=booked_business_seats + '$anum' where plane_id='$plane_id1'";
+	$update_seats_query_plane1="update has_booked_seats_in_plane set booked_business_seats=booked_business_seats + '$anum' where plane_id='$plane_id1' and (flight_id='$flight_id' or flight_id='$flight_id1')";
 	$update=mysqli_query($con,$update_seats_query_plane1);
 	if($update);
 	else echo ("Error description: ".mysqli_error($con));
-	$update_seats_query_plane2="update planes set booked_business_seats=booked_business_seats + '$anum' where plane_id='$plane_id2'";
+	$update_seats_query_plane2="update has_booked_seats_in_plane set booked_business_seats=booked_business_seats + '$anum' where plane_id='$plane_id2' and (flight_id='$flight_id' or flight_id='$flight_id2')";
 	$update=mysqli_query($con,$update_seats_query_plane2);
 	if($update);
 	else echo ("Error description: ".mysqli_error($con));
  
 }
 
-if($class=="economy"){
+if($class=="first"){
 
 	
-	$update_seats_query_plane1="update planes set booked_first_seats=booked_first_seats + '$anum' where plane_id='$plane_id1'";
+	$update_seats_query_plane1="update has_booked_seats_in_plane set booked_first_seats=booked_first_seats + '$anum' where plane_id='$plane_id1' and (flight_id='$flight_id' or flight_id='$flight_id1')";
 	$update=mysqli_query($con,$update_seats_query_plane1);
 	if($update);
 	else echo ("Error description: ".mysqli_error($con));
-	$update_seats_query_plane2="update planes set booked_first_seats=booked_first_seats + '$anum' where plane_id='$plane_id2'";
+	$update_seats_query_plane2="update has_booked_seats_in_plane set booked_first_seats=booked_first_seats + '$anum' where plane_id='$plane_id2' and (flight_id='$flight_id' or flight_id='$flight_id2')";
 	$update=mysqli_query($con,$update_seats_query_plane2);
 	if($update);
 	else echo ("Error description: ".mysqli_error($con));
@@ -152,7 +170,7 @@ $date_of_arrival=$result_row[3];
 $time_of_arrival=$result_row[4];
 echo'<html>
 <head>
-	<title>AirlinesBookingSystem</title>
+	<title>E-Ticket</title>
 	<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="layoutsstyle.css">
@@ -171,10 +189,21 @@ echo'<html>
     	</div>';
     	echo"<center>";
 echo'<div class="column container">';
+
+$query="select f.flight_id from flights as f, taken_by_plane as t where (f.stops='1' and f.source='$source' and f.halt_station='$destination' and t.plane_id='$plane_id' and t.time_of_depart='$time_of_depart' and t.date_of_depart='$date_of_depart' and f.flight_id=t.flight_id) or (f.stops='1' and f.halt_station='$source' and f.destination='$destination' and t.plane_id='$plane_id' and t.time_of_depart='$time_of_depart' and t.date_of_depart='$date_of_depart' and f.flight_id=t.flight_id)";
+$result=mysqli_query($con,$query);
+$flight_id1=0;
+if(mysqli_num_rows($result)){
+	$tuple=mysqli_fetch_array($result);
+	$flight_id1=$tuple[0];
+}
+//echo$flight_id1;
+
+
 if($class=="economy"){
 
 	
-	$update_seats_query_plane1="update planes set booked_economy_seats=booked_economy_seats + '$anum' where plane_id='$plane_id'";
+	$update_seats_query_plane1="update has_booked_seats_in_plane set booked_economy_seats=booked_economy_seats + '$anum' where plane_id='$plane_id' and flight_id in ('$flight_id','$flight_id1')";
 	$update=mysqli_query($con,$update_seats_query_plane1);
 	if($update);
 	else echo ("Error description: ".mysqli_error($con));
@@ -184,7 +213,7 @@ if($class=="economy"){
 if($class=="business"){
 
 	
-	$update_seats_query_plane1="update planes set booked_business_seats=booked_business_seats + '$anum' where plane_id='$plane_id'";
+	$update_seats_query_plane1="update has_booked_seats_in_plane set booked_business_seats=booked_business_seats + '$anum' where plane_id='$plane_id' and flight_id in ('$flight_id','$flight_id1')";
 	$update=mysqli_query($con,$update_seats_query_plane1);
 	if($update);
 	else echo ("Error description: ".mysqli_error($con));
@@ -192,10 +221,10 @@ if($class=="business"){
  
 }
 
-if($class=="economy"){
+if($class=="first"){
 
 	
-	$update_seats_query_plane1="update planes set booked_first_seats=booked_first_seats + '$anum' where plane_id='$plane_id'";
+	$update_seats_query_plane1="update has_booked_seats_in_plane set booked_first_seats=booked_first_seats + '$anum' where plane_id='$plane_id' and flight_id in ('$flight_id','$flight_id1')";
 	$update=mysqli_query($con,$update_seats_query_plane1);
 	if($update);
 	else echo ("Error description: ".mysqli_error($con));

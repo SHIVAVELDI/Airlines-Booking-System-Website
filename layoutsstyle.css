@@ -148,18 +148,26 @@ input[type=number]:focus,input[type=time]:focus,input[type=date]:focus{
   border-radius: 25px;
   border: 2px solid #4CAF50;
 }
+ul{
+  font-family: "Comic Sans MS", cursive, sans-serif;
+
+}
+
 
 li{
+  font-family: "Comic Sans MS", cursive, sans-serif;
 	display: block;
-	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	box-shadow: 0 12px 16px 0 black, black;
 
 }
 
 
 
 
-select{
-	 background-color: #4CAF50;
+select{      
+   overflow: scroll;
+   background-color: #ff9800;
+	
   color: white;
   padding: 14px 25px;
   text-align: center;
@@ -168,12 +176,12 @@ select{
   border-radius: 25px;
   margin-right:  10px;
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: "Comic Sans MS", cursive, sans-serif;
 
 }
 option{
-	 background-color: #2196F3;
-  color: white;
+  height: 100px;
+	   color: black;
   padding: 14px 25px;
   text-align: center;
   text-decoration: none;
@@ -231,4 +239,4 @@ box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
 .default {background-color: #e7e7e7; color: black;} /* Gray */
 .default:hover {background: #ddd;
 box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
-
+*/

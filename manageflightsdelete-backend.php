@@ -17,9 +17,9 @@ if($delete){
 	$delete_query="delete from flights where flight_id='$flight_id'";
     $delete=mysqli_query($con,$delete_query);
     if($delete)echo"<center><h2>Successfully Deleted from Flights</h2></center>";
-    else echo"<center><h2>Error in Deleting from <Flights> Database".mysqli_error($con)."</h2></center>";
+    else echo"<center><h2>Error in Deleting from [Flights] Database".mysqli_error($con)."</h2></center>";
 
 }
-else  echo"<center><h2>Error in Deleting from <Taken_By_plane> Database ".mysqli_error($con)."</h2></center>";
+else  echo"<center><h2>Error in Deleting from [Taken_By_plane] Database ".mysqli_error($con)."</h2></center>";
 
 ?>

@@ -1,7 +1,7 @@
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="layoutsstyle.css">
-	<title>AirlinesBookingsManagement</title>
+	<link rel="stylesheet" type="text/css" href="/AirlinesBooking/layoutsstyle.css">
+	<title>Admin Login</title>
 	<style>
 		
 			a:link, a:visited {
@@ -28,13 +28,13 @@ a:hover, a:active {
 	<br><br>
 	<center>
 		<h1 class="header">Welcome to Airlines Booking Database Management Platform</h1>
-		<p class = "header">Please Login to Manage AirlinesBooking Database</p>
+		<p class = "header">Please Login to Manage Airlines Booking Database</p>
 		<form  action="adminlogin-backend.php" method = "POST" class="column container">
 			<label>username:</label>
 			<input name = "username" placeholder = "AdminUsername" type="text"><br><br>
 			<label>Password:</label>
 			<input name = "password" type = "password" placeholder = "Admins Password"><br><br>
-			<button class="btn success" type = "submit">Submit</button>   <button class="btn danger" type = "reset">Clear</button>
+			<button class="btn success" type = "submit">Submit</button>   <button class="btn danger" type = "reset">ClearEntries</button>
 	    </form>
 	</center>
 </body>

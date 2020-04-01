@@ -1,8 +1,8 @@
 <?php
 
 require_once"dbconnect.php";
-$source=$_POST["source_code"];
-$destination=$_POST["destination_code"];
+$source=$_POST["source"];
+$destination=$_POST["destination"];
 $stops=$_POST["stops"];
 
 if($stops){

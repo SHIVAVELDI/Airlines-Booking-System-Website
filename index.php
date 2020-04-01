@@ -1,7 +1,7 @@
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="layoutsstyle.css">
-	<title>AirlinesBooking</title>
+	<link rel="stylesheet" type="text/css" href="/AirlinesBooking/layoutsstyle.css">
+	<title>Airlines Booking</title>
 	<style>
 		
 			a:link, a:visited {

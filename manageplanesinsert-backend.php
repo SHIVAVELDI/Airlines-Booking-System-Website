@@ -31,7 +31,7 @@ if($numResults == 1)
 else
 {   
 	//require_once 'dbconnect.php';
-	$sql=mysqli_query($con, "insert into planes (plane_id,airlines,total_economy_seats,booked_economy_seats,total_business_seats,booked_business_seats,total_first_seats,booked_first_seats) values ('$plane_id', '$airlines','$total_economy_seats',0,'$total_business_seats',0,'$total_first_seats',0)");
+	$sql=mysqli_query($con, "insert into planes (plane_id,airlines,total_economy_seats,total_business_seats,total_first_seats) values ('$plane_id', '$airlines','$total_economy_seats','$total_business_seats','$total_first_seats')");
 	if($sql)echo "<br><br><br><center><h1>".$plane_id." from airlines ".$airlines." is Successfully added to Database </h1></center>";
     else echo("Error description: ".mysqli_error($con)); 
 }

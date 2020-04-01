@@ -2,11 +2,11 @@
 <html>
 <head>
 	<title>
-		Book Flight Tickets
+		Book Tickets
 	</title>
 	<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="layoutsstyle.css">
+<link rel="stylesheet" type="text/css" href="/AirlinesBooking/layoutsstyle.css">
 </head>
 
 <body>  
@@ -24,12 +24,26 @@
 		<h1>Plan Your Journey</h1>
 		<center>
 		<form class="column container" action = "bookingtickets-backend.php" method = "POST" id="form">
-			<label>From:</label>
-			<input type="text" name = "source" placeholder = "Airport" required><br><br>
-			<label>To:</label>
-			<input type="text" name = "destination" placeholder = "Airport" required><br><br>
-			<label>Class:</label>
-			<select  id="class" name="class" required>
+			
+			<select  id="source" name="source" required>
+				<option  selected="" disabled="">Select Source Airport</option>
+			  <?php require_once"selectairports.php";
+                    foreach ($tuples as $row) {
+                    	echo'<option value="'.$row[0].'">'.$row[2].' ('.$row[1].')</option>';
+                    }
+			     ?>
+            </select> <br><br>  
+		
+			<select  id="destination" name="destination" required>
+				<option selected="" disabled="">Select Destination Airport</option>
+			  <?php require_once"selectairports.php";
+                    foreach ($tuples as $row) {
+                    	echo'<option value="'.$row[0].'">'.$row[2].' ('.$row[1].')</option>';
+                    }
+			     ?>
+            </select> <br><br> 
+			
+			<select style="background-color:#2196F3!important; " id="class" name="class" required>
               <option value="economy">Economy Class</option>
               <option value="business">Business Class</option>
               <option value="first">First Class</option>
@@ -37,7 +51,7 @@
             <label>Date of Departure:</label>
             <input name = "date_of_depart" type= "date" required ><br><br>
 			<button class="btn success" type = "Submit">Check Flights</button>
-			<button class="btn warning" type ="reset">Clear Entries</button>
+			<button class="btn danger" type ="reset">Clear Entries</button>
 		</form>
 	</center>
 	</div>

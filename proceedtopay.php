@@ -12,19 +12,37 @@ $class=$_POST["class"];
 
 //echo$email;
 //echo$flight_id;
-$fare_of_single_ticket_query="select sum(fare) from taken_by_plane where flight_id='$flight_id'";
+if($class=="economy"){
+$fare_of_single_ticket_query="select sum(economy_fare) from taken_by_plane where flight_id='$flight_id'";
 $result_tuples=mysqli_query($con,$fare_of_single_ticket_query);
 $result_row=mysqli_fetch_array($result_tuples);
 $fare_of_single_ticket=$result_row[0];
 $total_fare=$anum*$fare_of_single_ticket;
+}
+if($class=="business"){
+$fare_of_single_ticket_query="select sum(business_fare) from taken_by_plane where flight_id='$flight_id'";
+$result_tuples=mysqli_query($con,$fare_of_single_ticket_query);
+$result_row=mysqli_fetch_array($result_tuples);
+$fare_of_single_ticket=$result_row[0];
+$total_fare=$anum*$fare_of_single_ticket;
+}
+if($class=="first"){
+$fare_of_single_ticket_query="select sum(first_fare) from taken_by_plane where flight_id='$flight_id'";
+$result_tuples=mysqli_query($con,$fare_of_single_ticket_query);
+$result_row=mysqli_fetch_array($result_tuples);
+$fare_of_single_ticket=$result_row[0];
+$total_fare=$anum*$fare_of_single_ticket;
+}
+
+
 
 ?>
 <html>
 <head>
-	<title>AirlinesBookingSystem</title>
+	<title>Payment</title>
 	<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="layoutsstyle.css">
+<link rel="stylesheet" type="text/css" href="/AirlinesBooking/layoutsstyle.css">
 </head>
   
     <body>
